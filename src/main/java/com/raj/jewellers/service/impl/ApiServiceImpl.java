@@ -28,7 +28,6 @@ import com.raj.jewellers.respository.MasterCategoryRepository;
 import com.raj.jewellers.respository.MasterMaterialRepository;
 import com.raj.jewellers.respository.UserLoginRepository;
 import com.raj.jewellers.service.ApiService;
-import com.raj.jewellers.utility.Utility;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,9 +46,6 @@ public class ApiServiceImpl implements ApiService {
 
     @Autowired
     private MasterMaterialRepository materialRepository;
-
-    @Autowired
-    private Utility utility;
 
     @Autowired
     private Cloudinary cloudinary;

@@ -7,6 +7,6 @@ import com.raj.jewellers.entity.JewelleryItemEntity;
 
 @Repository
 public interface JewelleryItemRepository
-        extends JpaRepository<JewelleryItemEntity, Integer> {
+        extends JpaRepository<JewelleryItemEntity, Long> {
 
 }

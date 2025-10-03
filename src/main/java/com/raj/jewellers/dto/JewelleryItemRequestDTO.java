@@ -48,9 +48,6 @@ public class JewelleryItemRequestDTO {
 
     private String description;
 
-//    @NotBlank(message = "At least one image path is required")
-//    @Size(max = 2000,
-//            message = "Image paths length must be less than 2000 characters")
     private String imagePaths; // e.g. "img1.jpg,img2.jpg"
 
     private Boolean stockAvailable = true;

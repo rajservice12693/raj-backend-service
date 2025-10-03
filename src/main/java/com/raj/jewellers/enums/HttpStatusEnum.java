@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 public enum HttpStatusEnum {
 
     OK(HttpStatus.OK, "API called successfully !!!"),
+
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "Invalid request !!!");
 
     private final String message;

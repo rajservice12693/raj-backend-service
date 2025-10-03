@@ -219,4 +219,13 @@ public class ApiServiceImpl implements ApiService {
         return result;
     }
 
+    @Override
+    public Object deleteItemById(Long itemId) {
+        itemRepository.findById(itemId).ifPresentOrElse(
+                item -> itemRepository.deleteById(itemId),
+                () -> new CustomException(HttpStatusEnum.BAD_REQUEST,
+                        "Invalid item id."));
+        return "Data is deleted for the Item Id: " + itemId;
+    }
+
 }

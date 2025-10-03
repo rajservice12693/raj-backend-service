@@ -21,5 +21,7 @@ public interface ApiService {
     List<JewelleryItemResponseDto> fetchAllItems();
 
     Object dashBoradItemCount();
+    
+    Object deleteItemById(Long itemId);
 
 }

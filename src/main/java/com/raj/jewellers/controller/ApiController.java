@@ -34,6 +34,13 @@ public class ApiController {
     @Autowired
     private ApiService apiService;
 
+    @GetMapping("/")
+    public ResponseEntity<Object> welcome() {
+        return ResponseHandler.generateResponse(
+                "Welcome to Raj Jewellers API", HttpStatus.OK,
+                Constants.ERROR_FALSE, null);
+    }
+
     @PostMapping(value = "/login",
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object>

@@ -1,58 +1,118 @@
-# Raj Jewellers Backend Service
+# 🎨 Raj Jewellers Backend Service
 
-A Spring Boot-based REST API service for managing a jewellers inventory system, including jewellery items, categories, materials, and user authentication.
+[![Java](https://img.shields.io/badge/Java-17-orange)](https://openjdk.java.net/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.5-brightgreen)](https://spring.io/projects/spring-boot)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue)](https://www.postgresql.org/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-blue)](https://www.docker.com/)
+[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
-## Features
+A robust Spring Boot-based REST API service for managing a comprehensive jewellers inventory system, featuring jewellery items, categories, materials, user authentication, and seamless image uploads.
 
-- User authentication and login
-- Jewellery item management (CRUD operations)
-- Category and material management
-- Image upload via Cloudinary integration
-- Dashboard statistics
-- RESTful API endpoints
+## 📋 Table of Contents
 
-## Prerequisites
+- [✨ Features](#-features)
+- [📋 Prerequisites](#-prerequisites)
+- [🗄️ Database Setup](#️-database-setup)
+- [⚙️ Installation](#️-installation)
+- [🔧 Configuration](#-configuration)
+- [🚀 Running the Application](#-running-the-application)
+- [📡 API Endpoints](#-api-endpoints)
+- [🧪 Testing the API](#-testing-the-api)
+- [🏗️ Project Structure](#️-project-structure)
+- [🐳 Docker Setup](#-docker-setup)
+- [🛠️ Technologies Used](#️-technologies-used)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
 
-- Java 17 or higher
-- Maven 3.6+
-- PostgreSQL 12+
-- Git (optional, for cloning)
+## ✨ Features
 
-## Database Setup
+- 🔐 **User Authentication** - Secure login system
+- 💍 **Jewellery Management** - Complete CRUD operations for items
+- 📂 **Category & Material Management** - Organize inventory efficiently
+- ☁️ **Cloudinary Integration** - Seamless image upload and storage
+- 📊 **Dashboard Analytics** - Real-time statistics and insights
+- 🔗 **RESTful API** - Well-designed endpoints with consistent responses
+- 🐳 **Docker Support** - Containerized deployment ready
 
-1. Install and start PostgreSQL
-2. Create a database named `jewellers`
-3. Ensure the database user `postgres` with password `admin` has access to the database
-4. The application uses schema `public` by default
+## 📋 Prerequisites
 
-## Installation
+| Requirement | Version | Description |
+|-------------|---------|-------------|
+| ☕ **Java** | 17+ | OpenJDK or Oracle JDK |
+| 📦 **Maven** | 3.6+ | Build tool (wrapper included) |
+| 🐘 **PostgreSQL** | 12+ | Database server |
+| 🐳 **Docker** | Latest | For containerized deployment |
+| 🐙 **Git** | Latest | Version control (optional) |
 
-1. Clone the repository (if applicable) or ensure you have the project files
-2. Navigate to the project root directory
+## 🗄️ Database Setup
 
-## Configuration
+### Local PostgreSQL Setup
 
-The application uses different profiles for different environments:
+1. 📥 **Install PostgreSQL** on your system
+2. ▶️ **Start PostgreSQL service**
+3. 🗃️ **Create database**:
+   ```sql
+   CREATE DATABASE jewellers;
+   ```
+4. 👤 **Create user** (if needed):
+   ```sql
+   CREATE USER postgres WITH PASSWORD 'admin';
+   GRANT ALL PRIVILEGES ON DATABASE jewellers TO postgres;
+   ```
 
-- `dev` (default): Development configuration
-- `prod`: Production configuration
+### Docker PostgreSQL (Recommended)
 
-### Application Properties
+The Docker setup automatically handles database creation.
 
-Key configuration in `application-dev.properties`:
+## ⚙️ Installation
 
-- **Server**: Port 8888, Context path `/raj-service`
-- **Database**: PostgreSQL on localhost:5432
-- **Cloudinary**: Configured for image uploads
-
-### Environment Variables (Optional)
-
-You can override database credentials using environment variables:
+### 📥 Clone & Setup
 
 ```bash
-export DB_URL=jdbc:postgresql://localhost:5432/jewellers
-export DB_USERNAME=postgres
-export DB_PASSWORD=admin
+# Clone repository (if applicable)
+git clone <repository-url>
+cd raj-backend-service
+
+# Or ensure you have the project files in current directory
+ls -la  # Should see pom.xml, src/, etc.
+```
+
+## 🔧 Configuration
+
+### 📁 Application Profiles
+
+The application supports multiple profiles for different environments:
+
+| Profile | Description | Default |
+|---------|-------------|---------|
+| `dev` | Development configuration | ✅ |
+| `prod` | Production configuration | ❌ |
+
+### ⚙️ Key Configuration Properties
+
+| Property | Value | Description |
+|----------|-------|-------------|
+| `server.port` | `8888` | Application port |
+| `server.servlet.context-path` | `/raj-service` | API context path |
+| `spring.datasource.url` | `jdbc:postgresql://localhost:5432/jewellers` | Database URL |
+| `spring.datasource.username` | `postgres` | Database username |
+| `spring.datasource.password` | `admin` | Database password |
+| `spring.profiles.active` | `dev` | Active profile |
+
+### 🌍 Environment Variables
+
+Override default configuration using environment variables:
+
+```bash
+# Database Configuration
+export SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/jewellers
+export SPRING_DATASOURCE_USERNAME=postgres
+export SPRING_DATASOURCE_PASSWORD=admin
+
+# Application Configuration
+export SERVER_PORT=8888
+export SPRING_PROFILES_ACTIVE=dev
 ```
 
 ## Running the Application
@@ -101,92 +161,121 @@ mvn spring-boot:run
 - Import the project as a Maven project
 - Run the main class: `com.raj.jewellers.JewellersApplication`
 
-## API Endpoints
+## 📡 API Endpoints
 
-The API is available at `http://localhost:8888/raj-service`
+**Base URL:** `http://localhost:8888/raj-service`
 
-### Authentication
+| Method | Endpoint | Description | Request Body | Response |
+|--------|----------|-------------|--------------|----------|
+| 🔐 **Authentication** | | | | |
+| `POST` | `/api/login` | User authentication | `LoginRequestDto` | User details |
+| 💍 **Jewellery Items** | | | | |
+| `POST` | `/api/saveItems` | Create new item with images | `JewelleryItemRequestDTO` + Multipart files | Created item |
+| `GET` | `/api/items` | Retrieve all items | - | Item list |
+| `DELETE` | `/api/item?itemId={id}` | Delete item by ID | - | Success message |
+| 📊 **Dashboard** | | | | |
+| `GET` | `/api/dashboardCount` | Get statistics | - | Dashboard data |
+| 📂 **Categories** | | | | |
+| `GET` | `/api/categories` | Get all categories | - | Category list |
+| `POST` | `/api/addcategory` | Create new category | `CategoryDTO` | Created category |
+| 🔧 **Materials** | | | | |
+| `GET` | `/api/materials` | Get all materials | - | Material list |
+| `POST` | `/api/addMaterials` | Create new material | `MaterialDTO` | Created material |
+| 🏠 **Root** | | | | |
+| `GET` | `/` | Welcome message | - | Welcome response |
 
-- `POST /api/login` - User login
+## 📋 API Response Format
 
-### Jewellery Items
-
-- `POST /api/saveItems` - Save new jewellery item (with images)
-- `GET /api/items` - Get all jewellery items
-- `DELETE /api/item?itemId={id}` - Delete item by ID
-
-### Dashboard
-
-- `GET /api/dashboardCount` - Get dashboard statistics
-
-### Categories
-
-- `GET /api/categories` - Get all categories
-- `POST /api/addcategory` - Add new category
-
-### Materials
-
-- `GET /api/materials` - Get all materials
-- `POST /api/addMaterials` - Add new material
-
-### Root
-
-- `GET /` - Welcome message
-
-## API Response Format
-
-All API responses follow a consistent format:
+All API responses follow a consistent JSON structure:
 
 ```json
 {
-  "message": "Success message",
+  "message": "Operation completed successfully",
   "status": 200,
-  "data": { ... },
+  "data": {
+    // Response data object or array
+  },
   "error": "FALSE"
 }
 ```
 
-## Testing the API
+### Response Fields
 
-You can test the endpoints using tools like:
+| Field | Type | Description |
+|-------|------|-------------|
+| `message` | String | Human-readable response message |
+| `status` | Integer | HTTP status code |
+| `data` | Object/Array | Response payload |
+| `error` | String | Error flag ("TRUE" or "FALSE") |
 
-- Postman
-- curl
-- Swagger UI (if configured)
+## 🧪 Testing the API
 
-Example curl command:
+### 🛠️ Recommended Tools
 
+- 📮 **Postman** - GUI API testing
+- 💻 **curl** - Command-line HTTP client
+- 🌐 **Thunder Client** - VS Code extension
+- 📚 **Swagger UI** - Interactive documentation (if configured)
+
+### 📝 Example Requests
+
+**Get Welcome Message:**
 ```bash
-curl -X GET http://localhost:8888/raj-service/
+curl -X GET http://localhost:8888/raj-service/ \
+  -H "Content-Type: application/json"
 ```
 
-## Project Structure
-
-```
-src/
-├── main/
-│   ├── java/com/raj/jewellers/
-│   │   ├── JewellersApplication.java
-│   │   ├── config/
-│   │   ├── constants/
-│   │   ├── controller/
-│   │   ├── dto/
-│   │   ├── entity/
-│   │   ├── enums/
-│   │   ├── exception/
-│   │   ├── repository/
-│   │   ├── response/
-│   │   ├── service/
-│   │   └── utility/
-│   └── resources/
-│       ├── application.properties
-│       ├── application-dev.properties
-│       └── application-prod.properties
-└── test/
-    └── java/com/raj/jewellers/
+**Login Request:**
+```bash
+curl -X POST http://localhost:8888/raj-service/api/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "your-username",
+    "password": "your-password"
+  }'
 ```
 
-## Docker Setup
+**Get All Items:**
+```bash
+curl -X GET http://localhost:8888/raj-service/api/items \
+  -H "Content-Type: application/json"
+```
+
+## 🏗️ Project Structure
+
+```
+raj-backend-service/
+├── 📁 src/
+│   ├── 📁 main/
+│   │   ├── 📁 java/com/raj/jewellers/
+│   │   │   ├── JewellersApplication.java          # 🚀 Main application class
+│   │   │   ├── 📁 config/                          # ⚙️ Configuration classes
+│   │   │   ├── 📁 constants/                       # 🔧 Application constants
+│   │   │   ├── 📁 controller/                      # 🎯 REST controllers
+│   │   │   ├── 📁 dto/                            # 📦 Data transfer objects
+│   │   │   ├── 📁 entity/                         # 🗃️ JPA entities
+│   │   │   ├── 📁 enums/                          # 🏷️ Enumeration types
+│   │   │   ├── 📁 exception/                      # ⚠️ Custom exceptions
+│   │   │   ├── 📁 repository/                     # 💾 Data repositories
+│   │   │   ├── 📁 response/                       # 📤 Response handlers
+│   │   │   ├── 📁 service/                        # 🔄 Business logic
+│   │   │   └── 📁 utility/                        # 🛠️ Utility classes
+│   │   └── 📁 resources/
+│   │       ├── application.properties            # ⚙️ Default properties
+│   │       ├── application-dev.properties       # 🛠️ Development config
+│   │       └── application-prod.properties      # 🚀 Production config
+│   └── 📁 test/
+│       └── 📁 java/com/raj/jewellers/            # 🧪 Test classes
+├── 🐳 Dockerfile                                  # 🐳 Docker build file
+├── 🐳 docker-compose.yml                         # 🐳 Docker orchestration
+├── 📄 .dockerignore                              # 🚫 Docker ignore rules
+├── 📄 README.md                                  # 📖 This file
+├── 📦 pom.xml                                    # 📦 Maven configuration
+├── 📦 mvnw & mvnw.cmd                           # 📦 Maven wrapper
+└── 📄 .gitignore                                # 🚫 Git ignore rules
+```
+
+## 🐳 Docker Setup
 
 ### Prerequisites
 
@@ -229,46 +318,74 @@ docker-compose down
 docker-compose logs -f app
 ```
 
-## Technologies Used
+## 🛠️ Technologies Used
 
-- **Spring Boot 3.5.5** - Framework
-- **Spring Data JPA** - Data persistence
-- **PostgreSQL** - Database
-- **Cloudinary** - Image storage
-- **Lombok** - Code generation
-- **Maven** - Build tool
-- **Docker** - Containerization
+| Technology | Version | Purpose | Category |
+|------------|---------|---------|----------|
+| ☕ **Java** | 17 | Programming language | Language |
+| 🌱 **Spring Boot** | 3.5.5 | Application framework | Framework |
+| 💾 **Spring Data JPA** | 3.2.10 | Data persistence | ORM |
+| 🐘 **PostgreSQL** | 15 | Relational database | Database |
+| ☁️ **Cloudinary** | 1.37.0 | Image storage service | Cloud Service |
+| 🔧 **Lombok** | Latest | Code generation | Library |
+| 📦 **Maven** | 3.9.4 | Build automation | Build Tool |
+| 🐳 **Docker** | Latest | Containerization | DevOps |
+| 📊 **Spring Boot Actuator** | 3.5.5 | Monitoring | Framework |
 
-## Troubleshooting
+## 🔧 Troubleshooting
 
-### Database Connection Issues
+### 🚨 Common Issues & Solutions
 
-- Ensure PostgreSQL is running on port 5432
-- Verify database credentials in `application-dev.properties`
-- Check that the `jewellers` database exists
+| Issue | Symptoms | Solution |
+|-------|----------|----------|
+| **Database Connection Failed** | App starts but DB operations fail | ✅ Ensure PostgreSQL is running<br>✅ Verify credentials in `application-dev.properties`<br>✅ Check database `jewellers` exists |
+| **Port Already in Use** | `Port 8888 already in use` error | 🔄 Change port in properties:<br>`server.port=8889` |
+| **Build Failures** | Maven compilation errors | 🧹 Clean and rebuild:<br>`./mvnw clean install` |
+| **Docker Build Issues** | Container build fails | 📦 Ensure Docker daemon is running<br>🔍 Check Dockerfile syntax |
+| **Memory Issues** | App crashes with OOM | ⚙️ Increase JVM memory:<br>`-Xmx1024m -Xms512m` |
 
-### Port Already in Use
+### 🐛 Getting Help
 
-- Change the port in `application-dev.properties`:
-  ```properties
-  server.port=8889
-  ```
+- 📋 **Check Logs**: `docker-compose logs -f app`
+- 🔍 **Health Check**: Visit `http://localhost:8888/raj-service/actuator/health`
+- 📊 **Application Status**: Check terminal output for startup messages
 
-### Build Issues
+## 🤝 Contributing
 
-- Clean and rebuild:
-  ```bash
-  ./mvnw clean install
-  ```
+We welcome contributions! Here's how you can help:
 
-## Contributing
+### 📋 Contribution Process
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Run tests
-5. Submit a pull request
+1. 🍴 **Fork** the repository
+2. 🌿 **Create** a feature branch: `git checkout -b feature/amazing-feature`
+3. 💻 **Make** your changes
+4. 🧪 **Run tests**: `./mvnw test`
+5. ✅ **Commit** changes: `git commit -m 'Add amazing feature'`
+6. 📤 **Push** to branch: `git push origin feature/amazing-feature`
+7. 🔄 **Open** a Pull Request
 
-## License
+### 📝 Guidelines
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+- 📖 Follow existing code style
+- 🧪 Add tests for new features
+- 📚 Update documentation as needed
+- ✅ Ensure all tests pass
+- 🎯 Keep PRs focused on single features
+
+## 📄 License
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+---
+
+<div align="center">
+
+**Made with ❤️ for the jewellery industry**
+
+⭐ Star this repo if you find it helpful!
+
+[⬆️ Back to Top](#-raj-jewellers-backend-service)
+
+</div>

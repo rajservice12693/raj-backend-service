@@ -25,10 +25,10 @@ public class JewelleryItemRequestDTO {
     private String itemName;
 
     @NotNull(message = "Category ID is required")
-    private Integer categoryId;
+    private Long categoryId;
 
     @NotNull(message = "Material ID is required")
-    private Integer materialId;
+    private Long materialId;
 
     @Size(max = 20, message = "Purity must be at most 20 characters")
     private String purity;

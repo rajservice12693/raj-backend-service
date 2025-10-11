@@ -72,4 +72,23 @@ public class Utility {
         return null;
 
     }
+
+    public static String toTitleCase(String input) {
+        if (input == null || input.isEmpty()) {
+            return input;
+        }
+
+        String[] words = input.trim().split("\\s+");
+        StringBuilder sb = new StringBuilder();
+
+        for (String word : words) {
+            if (!word.isEmpty()) {
+                sb.append(Character.toUpperCase(word.charAt(0)));
+                sb.append(word.substring(1).toLowerCase());
+                sb.append(" ");
+            }
+        }
+
+        return sb.toString().trim();
+    }
 }

@@ -9,9 +9,9 @@ import com.raj.jewellers.entity.MasterCategoryEntity;
 
 @Repository
 public interface MasterCategoryRepository
-        extends JpaRepository<MasterCategoryEntity, Integer> {
+        extends JpaRepository<MasterCategoryEntity, Long> {
 
     Optional<MasterCategoryEntity>
-            findByCategoryNameAllIgnoringCase(String categoryName);
+            findByCategoryName(String categoryName);
 
 }
